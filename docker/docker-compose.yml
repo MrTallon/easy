@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mall-admin:
+    image: tallon/docker
+    container_name: docker
+    ports:
+      - 8080:8080
