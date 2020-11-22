@@ -1,6 +1,6 @@
 # Docker 部署笔记
 
-## 1. Dockerfile
+## 1. Dockerfile 运行
 
 服务器配置好 Docker 环境后，
 直接将 Springboot 打包好的 jar 包上传，
@@ -49,12 +49,58 @@ docker run -d -p 8080:8080 --name docker-test docker
     - -DskipDockerPush    跳过 push 阶段
     - -DskipDocker  跳过整个阶段
 
-## 4.idea 整合 Docker 加密认证
+## 3. Docker 加密认证
 
 开放 2375 接口会导致服务器的安全漏洞，因此只可以在测试环境用。  
-生产环境需配置安全策略。
+生产环境需使用加密的 tcp 连接，以 Https 的方式与客户端连接。
 
-日后再表
+```shell
+# 创建 ca 文件夹，存放 CA 私钥和公钥
+mkdir -p /usr/local/ca
+cd /usr/local/ca
+# 生成 CA 私钥和公钥
+openssl genrsa -aes256 -out ca-key.pem 4096
+openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem
+# 生成 server-key.pem
+openssl genrsa -out server-key.pem 4096
+# CA 签署公钥（本地局域网）
+openssl req -subj "/CN=192.168.207.129" -sha256 -new -key server-key.pem -out server.csr
+# 配置白名单，允许任何拥有证书的ip访问
+echo subjectAltName = IP:192.168.207.129,IP:0.0.0.0 >> extfile.cnf
+# 密钥仅用于服务器身份验证
+echo extendedKeyUsage = serverAuth >> extfile.cnf
+# 生成签名证书
+openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem \ -CAcreateserial -out server-cert.pem -extfile extfile.cnf
+# 生成客户端 key.pem
+openssl genras -out key.pem 4096
+openssl req -subj '/CN=client' -new -key key.pem -out client.csr
+# 使密钥适合客户端身份验证
+echo extendedKeyUsage = clientAuth >> extfile.cnf
+echo extendedKeyUsage = clientAuth > extfile-client.cnf
+# 生成签名证书
+openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem \ -CAcreateserial -out cert.pem -exffile extfile-client.cnf
+# 删除多余文件
+rm -v client.csr server.csr extfile.cnf extfile-client.cnf
+# 修改密钥权为只读权限
+chmod -v 0400 ca-key.pem key.pem server-key.pem
+chmod -v 0444 ca.pem server.cert.pem cert.pem
+# 归集服务器证书
+cp server-*.pem /etc/docker
+cp ca.pem /etc/dpcker
+# 修改 docker 配置
+vim /lib/systemd/system/docker.service
+# 注释手动添加 ExecStart 内容，添加如下
+ExecStart=/usr/bin/dockerd --tlsverify --tlscacert=/usr/local/ca/ca.pem --tlscert=/usr/local/ca/server-cert.pem --tlskey=/usr/local/ca/server-key.pem -Htcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+# 重启 docker 服务
+systemctl daemon-reload
+systemctl restart docker
+# 开放2375端口
+/sbin/iptables -I INPUT -p tcp --dport 2375 -j ACCEPT
+# 重启 docker
+systemctl restart docker
+# 将 /usr/local/ca 目录下的 ca.pem,ca-key.pem,cert.pem,key.pem 复制到本地
+# 修改 pom 文件docker地址为  https
+```
 
 
 
