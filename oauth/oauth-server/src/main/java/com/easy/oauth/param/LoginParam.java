@@ -21,7 +21,7 @@ public class LoginParam implements Serializable {
     /**
      * 账号
      */
-    private String userName;
+    private String username;
 
     /**
      * 密码

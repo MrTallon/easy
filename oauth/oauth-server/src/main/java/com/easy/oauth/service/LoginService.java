@@ -19,4 +19,12 @@ public interface LoginService {
      * @return {@code Map<String,String>} key:token
      */
     Map<String, String> getToken(String userName, String password);
+
+
+    /**
+     * 刷新 Token
+     * @param accessToken {@code String} 使用旧 Token 换新 Token
+     * @return {@code Map<String, String>} 新 Token，key: token
+     */
+    Map<String, String> refresh(String accessToken);
 }

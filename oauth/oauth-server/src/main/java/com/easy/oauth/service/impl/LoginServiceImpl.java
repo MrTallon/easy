@@ -1,12 +1,19 @@
 package com.easy.oauth.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.easy.oauth.common.RedisUtil;
 import com.easy.oauth.service.LoginService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +25,11 @@ import java.util.Map;
  */
 @Service
 public class LoginServiceImpl implements LoginService {
+
+    // private static Map<String, String> refreshTokenMaps = new HashMap<>();
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Value("${security.oauth2.client.access-token-uri}")
     private String accessTokenUri;
@@ -35,8 +47,78 @@ public class LoginServiceImpl implements LoginService {
     private UserDetailsService userDetailsService;
 
     @Override
-    public Map<String, String> getToken(String userName, String password) {
+    public Map<String, String> getToken(String username, String password) {
+        Map<String, String> result = new HashMap<>();
+
+        // 验证密码是否正确
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+//            自定义异常
+            return null;
+        }
+
+        // 通过 HTTP 客户端请求登录接口
+        Map<String, Object> authParam = getAuthParam();
+        authParam.put("username", username);
+        authParam.put("password", password);
+        authParam.put("grant_type", "password");
+
+        // 获取 access_token
+        String strJson = HttpUtil.post(accessTokenUri, authParam);
+        JSONObject jsonObject = JSONUtil.parseObj(strJson);
+        String token = String.valueOf(jsonObject.get("access_token"));
+        String refresh = String.valueOf(jsonObject.get("refresh_token"));
+        if (StrUtil.isNotBlank(token) && StrUtil.isNotBlank(refresh)) {
+            // 将 refresh_token 保存在服务端redis
+            redisUtil.set(token, refresh);
+
+            // 将 access_token 返回给客户端
+            result.put("token", token);
+            return result;
+        }
 
         return null;
     }
+
+    @Override
+    public Map<String, String> refresh(String accessToken) {
+        Map<String, String> result = new HashMap<>();
+
+        // Access Token 不存在直接返回 null
+        Object refreshToken = redisUtil.get(accessToken);
+        if (refreshToken == null) {
+            return null;
+        }
+
+        // 通过 HTTP 客户端请求登录接口
+        Map<String, Object> authParam = getAuthParam();
+        authParam.put("grant_type", "refresh_token");
+        authParam.put("refresh_token", refreshToken);
+
+        // 获取 access_token
+        String strJson = HttpUtil.post(accessTokenUri, authParam);
+        JSONObject jsonObject = JSONUtil.parseObj(strJson);
+        String token = String.valueOf(jsonObject.get("access_token"));
+        String refresh = String.valueOf(jsonObject.get("refresh_token"));
+        if (StrUtil.isNotBlank(token) && StrUtil.isNotBlank(refresh)) {
+            // 移除旧token对应的refresh_token
+            redisUtil.del(accessToken);
+            // 将 refresh_token 保存在服务端
+            redisUtil.set(token, refresh, 2592000);
+            // 将 access_token 返回给客户端
+            result.put("token", token);
+            return result;
+        }
+        return null;
+    }
+
+    // 私有方法 ------------------------------------------- Begin
+
+    private Map<String, Object> getAuthParam() {
+        Map<String, Object> param = new HashMap<>();
+        param.put("client_id", clientId);
+        param.put("client_secret", clientSecret);
+        return param;
+    }
+
 }

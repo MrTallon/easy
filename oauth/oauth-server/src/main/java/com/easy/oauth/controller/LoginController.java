@@ -3,6 +3,7 @@ package com.easy.oauth.controller;
 import com.easy.oauth.common.Header;
 import com.easy.oauth.param.LoginParam;
 import com.easy.oauth.resonse.ResponseResult;
+import com.easy.oauth.service.LoginService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +27,7 @@ public class LoginController {
     private HttpServletRequest request;
 
     @Resource
-    private ILoginService loginService;
-
-    /**
-     * 管理员登录
-     * @param loginParam {@code JSON} {@link LoginParam}
-     * @return {@link ResponseResult}
-     */
-    @PostMapping("admin")
-    public ResponseResult admin(@RequestBody LoginParam loginParam) {
-        return ResponseResult.success(loginService.getToken(loginParam.getUsername(), loginParam.getPassword()));
-    }
+    private LoginService loginService;
 
     /**
      * 用户登录，登录只是拿 Token

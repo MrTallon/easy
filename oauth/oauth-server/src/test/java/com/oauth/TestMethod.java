@@ -24,6 +24,6 @@ public class TestMethod {
 
     @Test
     public void passwd() {
-        System.out.println(encoder.encode("123456"));
+        System.out.println(encoder.encode("tallon"));
     }
 }
