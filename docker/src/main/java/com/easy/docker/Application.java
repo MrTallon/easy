@@ -22,6 +22,6 @@ public class Application {
 
     @GetMapping("/")
     public String test() {
-        return "Hello world";
+        return "Tallon test";
     }
 }
