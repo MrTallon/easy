@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * 认证服务器配置
+ * 服务器安全配置
  *
  * @author tallon
  * @version v1.0.0

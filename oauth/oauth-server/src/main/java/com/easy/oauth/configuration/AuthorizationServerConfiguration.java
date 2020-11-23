@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
- * 认证资源服务器配置
+ * 认证服务器
  *
  * @author tallon
  * @version v1.0.0
