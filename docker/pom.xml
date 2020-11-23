@@ -23,12 +23,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -51,7 +45,7 @@
                     <workdir>/ROOT</workdir>
                     <cmd>["java","-version"]</cmd>
                     <entryPoint>["java","-jar","${project.build.finalName}.jar"]</entryPoint>
-                    <dockerHost>http://192.168.207.129:2375</dockerHost>
+                    <dockerHost>http://192.168.101.87:2375</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/ROOT</targetPath>

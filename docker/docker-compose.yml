@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mall-admin:
+  easy-docker:
     image: tallon/docker
     container_name: docker
     ports:

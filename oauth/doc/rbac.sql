@@ -12,13 +12,18 @@ CREATE TABLE `tb_permission`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 44
   DEFAULT CHARSET = utf8 COMMENT ='权限表';
-insert into `tb_permission`(`id`, `parent_id`, `name`, `enname`, `url`, `description`, `create_time`, `update_time`)
-values (37, 0, '系统管理', 'System', '/', NULL, '2019-04-04 23:22:54', '2019-04-04 23:22:56'),
-       (38, 37, '用户管理', 'SystemUser', '/users/', NULL, '2019-04-04 23:25:31', '2019-04-04 23:25:33'),
-       (39, 38, '查看用户', 'SystemUserView', '', NULL, '2019-04-04 15:30:30', '2019-04-04 15:30:43'),
-       (40, 38, '新增用户', 'SystemUserInsert', '', NULL, '2019-04-04 15:30:31', '2019-04-04 15:30:44'),
-       (41, 38, '编辑用户', 'SystemUserUpdate', '', NULL, '2019-04-04 15:30:32', '2019-04-04 15:30:45'),
-       (42, 38, '删除用户', 'SystemUserDelete', '', NULL, '2019-04-04 15:30:48', '2019-04-04 15:30:45');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (37, 0, '系统管理', 'System', '/', null, '2019-04-04 23:22:54', '2019-04-04 23:22:56');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (38, 37, '用户管理', 'SystemUser', '/users/', null, '2019-04-04 23:25:31', '2019-04-04 23:25:33');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (39, 38, '查看用户', 'SystemMemberView', '', null, '2019-04-04 15:30:30', '2019-04-04 15:30:43');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (40, 38, '查看订单', 'SystemOrderView', '', null, '2019-04-04 15:30:31', '2019-04-04 15:30:44');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (41, 38, '删除订单', 'SystemOrderDelete', '', null, '2019-04-04 15:30:32', '2019-04-04 15:30:45');
+INSERT INTO tb_permission (id, parent_id, name, enname, url, description, create_time, update_time)
+VALUES (42, 38, '删除用户', 'SystemMemberDelete', '', null, '2019-04-04 15:30:48', '2019-04-04 15:30:45');
 
 CREATE TABLE `tb_role`
 (
