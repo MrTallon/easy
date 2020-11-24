@@ -27,6 +27,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new UserDetailsServiceImpl();
     }
 
+    /**
+     * 密码模式
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

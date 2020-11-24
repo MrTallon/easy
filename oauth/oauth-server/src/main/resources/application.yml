@@ -38,9 +38,12 @@ security:
     client:
       client-id: tallon
       client-secret: tallon
+      # 令牌端点
       access-token-uri: http://localhost:${server.port}/oauth/token
+      # 授权端点
       user-authorization-uri: http://localhost:${server.port}/oauth/authorize
     resource:
+      # 用于资源服务访问的令牌解析端点
       token-info-uri: http://localhost:${server.port}/oauth/check_token
     authorization:
       check-token-access: http://localhost:${server.port}/oauth/check_token
