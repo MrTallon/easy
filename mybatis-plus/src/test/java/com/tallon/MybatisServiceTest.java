@@ -1,5 +1,6 @@
 package com.tallon;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.easy.mybatis.Application;
 import com.easy.mybatis.domain.TbAdmin;
 import com.easy.mybatis.service.ITbAdminService;
@@ -38,5 +39,20 @@ public class MybatisServiceTest {
         tbAdmin.setUrl("www.baidu.com");
         tbAdmin.setStatus(0);
         Assert.assertTrue(adminService.create(tbAdmin));
+    }
+
+    @Test
+    public void test2() {
+        TbAdmin admin = new TbAdmin();
+        admin.setEmail("123@qq.com");
+        IPage<?> page = adminService.page(1, 1, admin);
+        System.out.println(page.getPages());
+    }
+
+    @Test
+    public void test3() {
+        boolean remove = adminService.remove(1335105026542981122L);
+        Assert.assertTrue(remove);
+
     }
 }

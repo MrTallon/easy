@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easy.mybatis.mapper.TbAdminMapper">
+
+    <sql id="adminColumns">
+      a.`id`,
+      a.`username`,
+      a.`password`,
+      a.`nickname`,
+      a.`email`,
+      a.`url`,
+      a.`status`,
+      a.`is_deleted`,
+      a.`create_time`,
+      a.`update_time`
+    </sql>
+
+    <select id="listByQuery" resultType="com.easy.mybatis.domain.TbAdmin">
+        select <include refid="adminColumns"/> from tb_admin a ${ew.customSqlSegment}
+    </select>
 </mapper>
