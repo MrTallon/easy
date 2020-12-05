@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @TableName("tb_admin")
 public class TbAdmin extends BaseDomain {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3897574705870031218L;
 
     /**
      * 登录名
