@@ -2,10 +2,10 @@
 
 1. [自定义代码生成模板](https://github.com/MrTallon/easy/blob/master/mybatis-plus/src/main/java/com/easy/mybatis/generator/MyBatisPlusGenerate.java)
 2. [自动填充](https://github.com/MrTallon/easy/blob/master/mybatis-plus/src/main/java/com/easy/mybatis/config/MyMetaObjectHandler.java)
-3. [逻辑删除]
+3. [逻辑删除](https://github.com/MrTallon/easy/blob/master/mybatis-plus/src/main/resources/application.yml)
 4. [公共方法抽象](https://github.com/MrTallon/easy/tree/master/mybatis-plus/src/main/java/com/easy/mybatis/base)
-5. [封装查询语句]
-6. [分页查询]()
+5. [封装查询语句](https://github.com/MrTallon/easy/blob/master/mybatis-plus/src/main/java/com/easy/mybatis/service/impl/TbAdminServiceImpl.java)
+6. [分页查询](https://github.com/MrTallon/easy/blob/master/mybatis-plus/src/main/java/com/easy/mybatis/service/impl/TbAdminServiceImpl.java)
     插件会把第1页和第0页都识别为0，所以传哪个都可
 
 

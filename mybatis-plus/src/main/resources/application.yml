@@ -17,10 +17,11 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
 
-#mybatis-plus配置控制台打印完整带参数SQL语句
 mybatis-plus:
+  # 配置控制台打印完整带参数SQL语句
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 逻辑删除
   global-config:
     db-config:
       logic-delete-field: isDeleted  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
