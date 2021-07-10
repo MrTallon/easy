@@ -389,3 +389,9 @@ logging:
 </configuration>
 ```
 
+
+
+参考文档
+[1](https://mp.weixin.qq.com/s/ll_A6ddBaU99LSYmKdttYw)
+[2](https://zhuanlan.zhihu.com/p/258332626)
+[3](http://www.macrozheng.com/#/deploy/mall_deploy_docker_compose)
