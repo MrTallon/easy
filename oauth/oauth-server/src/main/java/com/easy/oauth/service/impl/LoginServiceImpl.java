@@ -83,11 +83,12 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Map<String, String> refresh(String accessToken) {
         Map<String, String> result = new HashMap<>();
-
         // Access Token 不存在直接返回 null
         Object refreshToken = redisUtil.get(accessToken);
         if (refreshToken == null) {
-            return null;
+            // 临时
+            result.put("token", "token无效");
+            return result;
         }
 
         // 通过 HTTP 客户端请求登录接口
@@ -109,7 +110,9 @@ public class LoginServiceImpl implements LoginService {
             result.put("token", token);
             return result;
         }
-        return null;
+        // 临时
+        result.put("token", "token无效");
+        return result;
     }
 
     // 私有方法 ------------------------------------------- Begin
@@ -120,5 +123,4 @@ public class LoginServiceImpl implements LoginService {
         param.put("client_secret", clientSecret);
         return param;
     }
-
 }
