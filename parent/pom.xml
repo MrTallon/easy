@@ -29,6 +29,7 @@
         <!-- Tools -->
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <hutool.version>5.3.5</hutool.version>
+        <fastjson.version>1.2.73</fastjson.version>
 
     </properties>
 
@@ -69,6 +70,12 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
 
         </dependencies>
