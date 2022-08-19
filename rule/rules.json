@@ -1,0 +1,46 @@
+[
+  {
+    "name": "1",
+    "description": "1",
+    "priority": 1,
+    "compositeRuleType": "UnitRuleGroup",
+    "composingRules": [
+      {
+        "name": "2",
+        "description": "2",
+        "condition": "person.getAge()<28",
+        "priority": 2,
+        "actions": [
+          "System.out.println(\"我小于28岁\")"
+        ]
+      },
+      {
+        "name": "3",
+        "description": "3",
+        "condition": "person.name.length<10",
+        "priority": 3,
+        "actions": [
+          "System.out.println(\"我名字小于10字符\")"
+        ]
+      },
+      {
+        "name": "4",
+        "description": "4",
+        "condition": "person.name.length<8",
+        "priority": 4,
+        "actions": [
+          "System.out.println(\"我名字小于8字符\")"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "3",
+    "description": "3",
+    "condition": "person.name.length<50",
+    "priority": 3,
+    "actions": [
+      "System.out.println(\"我名字小于50字符\")"
+    ]
+  }
+]
